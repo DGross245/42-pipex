@@ -16,6 +16,7 @@
 #include <stdlib.h> // exit
 #include <unistd.h> // fork dup2
 
+//heredoc, cmd path etc, child manegmentos, leak, error handling
 void	throw_error(char *str);
 void	create_pipe(t_pipex pipex);
 void	alloc_pipe(t_pipex pipex);
@@ -24,7 +25,9 @@ void	childs(t_pipex pipex);
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
+	int		i;
 
+	i = 0;
 	if (argc != 5)
 		throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
 	pipex.infile = open(argv[1], O_RDONLY);
@@ -33,34 +36,59 @@ int	main(int argc, char **argv, char **envp)
 		throw_error("Wrong input: infile/outfile Error");
 	pipex.childs = argc - 3;
 	create_pipe(pipex);
-	find_cmd(pipex);
+	find_cmd(pipex, envp);
 	while (i < pipex.childs)
-		childs();
+	{
+		childs(pipex, envp);
+		i++;
+	}
+	destroy_pipe(pipex);
 	return (0);
 }
 
-void	childs(t_pipex pipex)
+void	find_cmd(pipex, envp)
+{
+	
+}
+
+void	childs(t_pipex pipex, char **envp)
 {
 	int	id;
 
 	id = fork();
+	if (id == -1)
+		throw_error("fork error");
 	if (id == 0)
 	{
 		close(pipex.pipe[i][0]);
 		dup2(pipex.infile, 0);
 		dup2(pipex.pipe[i][1], 1);
-		execv(path, cmd);
+		execve(path, cmd);
 	}
 }
 
 void	create_pipe(t_pipex pipex)
 {
-	pipex.i = 0;
+	int i;
+
+	i = 0;
 	alloc_pipe(pipex);
 	while (1 < pipex.childs - 1)
 	{
 		if (pipe(pipex.pipe[i]) == -1)
 			throw_error("Open pipe Error");
+		i++;
+	}
+}
+
+void	destroy_pipe(t_pipex pipex)
+{
+	int	i;
+
+	i = 0;
+	while (1 < pipex.childs - 1)
+	{
+		close(pipex.pipe[i]);
 		i++;
 	}
 }
