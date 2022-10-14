@@ -6,7 +6,7 @@
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/30 12:00:24 by dgross            #+#    #+#              #
-#    Updated: 2022/10/05 13:05:52 by dgross           ###   ########.fr        #
+#    Updated: 2022/10/14 11:33:54 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ obj/%.o: src/%.c
 
 $(NAME): obj $(OBJS)
 	@ar -rcs $(NAME) $(OBJS)
-	
+
 
 clean:
 	@rm -rf obj
@@ -53,6 +53,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: bonus all clean fclean re
-
-bl = \033[1;37;40m
-de = \033[1;0m

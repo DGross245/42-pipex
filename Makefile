@@ -6,7 +6,7 @@
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/07 17:25:15 by dgross            #+#    #+#              #
-#    Updated: 2022/10/07 11:15:09 by dgross           ###   ########.fr        #
+#    Updated: 2022/10/14 11:39:50 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,3 +73,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re bonus
+
+-include $(INCLUDES)
