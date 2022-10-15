@@ -17,7 +17,8 @@
 #include <stdlib.h> // exit
 #include <unistd.h> // fork dup2
 
-//heredoc, cmd path etc, child manegmentos, leak, error handling
+//heredoc, leak, error handling
+// testen ob bei strjoin auch "/" + cmd geht
 void	throw_error(char *str);
 void	create_pipe(t_pipex *pipex);
 void	alloc_pipe(t_pipex *pipex);
@@ -25,6 +26,8 @@ void	childs(t_pipex *pipex, int index, char *cmd, char **envp);
 void	find_path(t_pipex *pipex, char **envp);
 void	destroy_pipe(t_pipex *pipex);
 char	*get_path(t_pipex *pipex, char *cmd);
+void	check_heredoc(t_pipex *pipex, int argc, char **argv);
+void	ft_here_doc(t_pipex *pipex, char *limiter);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -32,13 +35,8 @@ int	main(int argc, char **argv, char **envp)
 	int		index;
 
 	index = 0;
-	if (argc < 5)
-		throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
-	pipex.infile = open(argv[1], O_RDONLY);
-	pipex.outfile = open(argv[argc - 1], O_WRONLY);
-	if (pipex.infile == -1 || pipex.outfile == -1)
-		throw_error("Wrong input: infile/outfile Error");
 	pipex.childs = argc - 3;
+	check_heredoc(&pipex, argc, argv);
 	create_pipe(&pipex);
 	find_path(&pipex, envp);
 	while (index < pipex.childs)
@@ -48,6 +46,30 @@ int	main(int argc, char **argv, char **envp)
 	}
 	destroy_pipe(&pipex);
 	return (0);
+}
+
+void check_heredoc(t_pipex *pipex, int argc, char **argv)
+{
+	pipex.outfile = open(argv[argc - 1], O_WRONLY);
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+	{
+		if (argc < 7)
+			throw_error("Wrong input: ./pipex here_doc limiter infile cmd1 cmd2 ... outfile");
+		ft_here_doc(pipex, argv[2], argc);
+	}
+	else
+	{
+		if (argc < 5)
+			throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
+		pipex.infile = open(argv[1], O_RDONLY);
+	}
+	if (pipex.infile == -1 || pipex.outfile == -1)
+		throw_error("Wrong input: infile/outfile Error");
+}
+
+void	ft_here_doc(t_pipex *pipex, char *limiter)
+{
+
 }
 
 void	find_path(t_pipex *pipex, char **envp)
@@ -71,8 +93,8 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 	{
 		if (index == 0)
 		{
-			dup2(pipex->infile, STDIN_FILENO);
-			dup2(pipex->pipe[0][1], STDOUT_FILENO);
+			dup2(pipex->infile, 0);
+			dup2(pipex->pipe[0][1], 1);
 		}
 		else if (index == pipex->childs - 1)
 		{
