@@ -6,7 +6,7 @@
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/07 17:25:15 by dgross            #+#    #+#              #
-#    Updated: 2022/10/14 11:39:50 by dgross           ###   ########.fr        #
+#    Updated: 2022/10/15 15:08:42 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ OBJ			= $(addprefix $(OBJ_DIR),$(SRC:.c=.o))
 CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
-
 INCLUDES	= -I./includes -I./libft/includes
 
 LINCLUDES	= -L./libft -lft

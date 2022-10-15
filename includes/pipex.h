@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 17:26:19 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/14 15:45:49 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/15 13:12:36 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ typedef struct s_pipex
 {
 	int		**pipe;
 	char	**path;
+	char	*file;
 	char	**cmd;
 	char	*envp;
 	int		childs;

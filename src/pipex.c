@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 17:27:48 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/14 22:08:55 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/15 17:04:22 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ void	alloc_pipe(t_pipex *pipex);
 void	childs(t_pipex *pipex, int index, char *cmd, char **envp);
 void	find_path(t_pipex *pipex, char **envp);
 void	destroy_pipe(t_pipex *pipex);
-char	*get_cmd(t_pipex *pipex, char *cmd, char *envp);
+char	*get_path(t_pipex *pipex, char *cmd);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 	int		index;
 
-	index = 2;
-	if (argc != 5)
+	index = 0;
+	if (argc < 5)
 		throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
 	pipex.infile = open(argv[1], O_RDONLY);
 	pipex.outfile = open(argv[argc - 1], O_WRONLY);
@@ -41,8 +41,11 @@ int	main(int argc, char **argv, char **envp)
 	pipex.childs = argc - 3;
 	create_pipe(&pipex);
 	find_path(&pipex, envp);
-	while (i < pipex.childs)
-		childs(&pipex, index, argv[index], envp);
+	while (index < pipex.childs)
+	{
+		childs(&pipex, index, argv[index + 2], envp);
+		index++;
+	}
 	destroy_pipe(&pipex);
 	return (0);
 }
@@ -68,28 +71,28 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 	{
 		if (index == 0)
 		{
-			dup2(pipex->infile, 0);
-			dup2(pipex->pipe[0][1], 1);
+			dup2(pipex->infile, STDIN_FILENO);
+			dup2(pipex->pipe[0][1], STDOUT_FILENO);
 		}
-		else if (index == pipex->childs)
+		else if (index == pipex->childs - 1)
 		{
-			dup2(pipex->pipe[i][0], 0);
+			dup2(pipex->pipe[index - 1][0], 0);
 			dup2(pipex->outfile, 1);
 		}
 		else
 		{
-			dup2(pipex->pipe[i][0], 0);
-			dup2(pipex->pipe[i][1], 1);
+			dup2(pipex->pipe[index - 1][0], 0);
+			dup2(pipex->pipe[index][1], 1);
 		}
 		pipex->cmd = ft_split(str, ' ');
-		pipex->path = get_path(pipex, cmd[0], path);
-		if (pipex->path == NULL)
+		pipex->file = get_path(pipex, pipex->cmd[0]);
+		if (pipex->file == NULL)
 			throw_error("cmd not found");
-		execve(pipex->path, pipex->cmd, envp);
+		execve(pipex->file, pipex->cmd, envp);
 	}
 }
 
-char	*get_path(t_pipex *pipex, char *cmd, char *envp)
+char	*get_path(t_pipex *pipex, char *cmd)
 {
 	int	i;
 
@@ -98,12 +101,8 @@ char	*get_path(t_pipex *pipex, char *cmd, char *envp)
 	{
 		pipex->path[i] = ft_strjoin(pipex->path[i], "/");
 		pipex->path[i] = ft_strjoin(pipex->path[i], cmd);
-		printf("path = %s\n", pipex->path[i]);
 		if (access(pipex->path[i], F_OK) == 0)
-		{
-			printf("kekw\n");
 			return (pipex->path[i]);
-		}
 		i++;
 	}
 	return (NULL);
@@ -115,7 +114,7 @@ void	create_pipe(t_pipex *pipex)
 
 	i = 0;
 	alloc_pipe(pipex);
-	while (1 < pipex->childs - 1)
+	while (i < pipex->childs - 1)
 	{
 		if (pipe(pipex->pipe[i]) == -1)
 			throw_error("Open pipe Error");
@@ -128,7 +127,7 @@ void	destroy_pipe(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (1 < pipex->childs - 1)
+	while (i < pipex->childs - 1)
 	{
 		close(pipex->pipe[i][0]);
 		close(pipex->pipe[i][1]);
@@ -141,12 +140,12 @@ void	alloc_pipe(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	pipex->pipe = (int **)malloc(sizeof(int *) * pipex->childs - 1);
+	pipex->pipe = ft_malloc(sizeof(int *) * pipex->childs - 1);
 	if (pipex->pipe == NULL)
 		throw_error("Malloc error");
-	while (pipex->pipe[i] != NULL)
+	while (i < pipex->childs - 1)
 	{
-		pipex->pipe[i] = (int *)malloc(sizeof(int) * 2);
+		pipex->pipe[i] = ft_malloc(sizeof(int) * 2);
 		if (pipex->pipe[i] == NULL)
 			throw_error("Malloc Error");
 		i++;
