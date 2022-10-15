@@ -29,11 +29,9 @@ char	*get_cmd(t_pipex *pipex, char *cmd, char *envp);
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
-	int		i;
-	int		k;
+	int		index;
 
-	i = 2;
-	k = 1;
+	index = 2;
 	if (argc != 5)
 		throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
 	pipex.infile = open(argv[1], O_RDONLY);
@@ -44,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	create_pipe(&pipex);
 	find_path(&pipex, envp);
 	while (i < pipex.childs)
-		childs(&pipex, k, argv[i], envp);
+		childs(&pipex, index, argv[index], envp);
 	destroy_pipe(&pipex);
 	return (0);
 }
@@ -56,26 +54,22 @@ void	find_path(t_pipex *pipex, char **envp)
 	i = 0;
 	while (ft_strncmp(envp[i], "PATH", 4))
 		i++;
-	pipex->envp = envp[i];
+	pipex->path = ft_split(envp[i] + 5, ':');
 }
 
 void	childs(t_pipex *pipex, int index, char *str, char **envp)
 {
 	int		id;
-	int		i;
-	char	*file;
-	char	**cmd;
 
-	i = 0;
 	id = fork();
 	if (id == -1)
 		throw_error("fork error");
 	if (id == 0)
 	{
-		if (index == 1)
+		if (index == 0)
 		{
-			dup2(pipex->infile, 0));
-			dup2(pipex->pipe[0][1], 1));
+			dup2(pipex->infile, 0);
+			dup2(pipex->pipe[0][1], 1);
 		}
 		else if (index == pipex->childs)
 		{
@@ -87,24 +81,24 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 			dup2(pipex->pipe[i][0], 0);
 			dup2(pipex->pipe[i][1], 1);
 		}
-		cmd = ft_split(str, ' ');
-		path = get_path(pipex, cmd[0], path);
-		if (path == NULL)
+		pipex->cmd = ft_split(str, ' ');
+		pipex->path = get_path(pipex, cmd[0], path);
+		if (pipex->path == NULL)
 			throw_error("cmd not found");
-		execve(path, cmd, envp);
+		execve(pipex->path, pipex->cmd, envp);
 	}
 }
 
-char	*get_cmd(t_pipex *pipex, char *cmd, char *envp)
+char	*get_path(t_pipex *pipex, char *cmd, char *envp)
 {
 	int	i;
 
 	i = 0;
-	pipex->path = ft_split(envp + 5, ':');
 	while (pipex->path[i])
 	{
 		pipex->path[i] = ft_strjoin(pipex->path[i], "/");
 		pipex->path[i] = ft_strjoin(pipex->path[i], cmd);
+		printf("path = %s\n", pipex->path[i]);
 		if (access(pipex->path[i], F_OK) == 0)
 		{
 			printf("kekw\n");

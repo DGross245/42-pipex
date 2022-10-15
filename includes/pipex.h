@@ -17,6 +17,7 @@ typedef struct s_pipex
 {
 	int		**pipe;
 	char	**path;
+	char	**cmd;
 	char	*envp;
 	int		childs;
 	int		infile;
