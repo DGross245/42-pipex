@@ -43,12 +43,8 @@ int	main(int argc, char **argv, char **envp)
 	pipex.childs = argc - 3;
 	create_pipe(&pipex);
 	find_path(&pipex, envp);
-	while (i < pipex.childs + 2)
-	{
+	while (i < pipex.childs)
 		childs(&pipex, k, argv[i], envp);
-		i++;
-		k++;
-	}
 	destroy_pipe(&pipex);
 	return (0);
 }
@@ -67,12 +63,10 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 {
 	int		id;
 	int		i;
-	char	*path;
 	char	*file;
 	char	**cmd;
 
 	i = 0;
-	path = ft_strdup(pipex->envp);
 	id = fork();
 	if (id == -1)
 		throw_error("fork error");
@@ -80,8 +74,8 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 	{
 		if (index == 1)
 		{
-			printf("%d\n", dup2(pipex->infile, 0));
-			printf("%d\n", dup2(pipex->pipe[0][1], 1));
+			dup2(pipex->infile, 0));
+			dup2(pipex->pipe[0][1], 1));
 		}
 		else if (index == pipex->childs)
 		{
@@ -94,10 +88,10 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 			dup2(pipex->pipe[i][1], 1);
 		}
 		cmd = ft_split(str, ' ');
-		file = get_cmd(pipex, cmd[0], path);
-		if (file == NULL)
+		path = get_path(pipex, cmd[0], path);
+		if (path == NULL)
 			throw_error("cmd not found");
-		execve(file, cmd, envp);
+		execve(path, cmd, envp);
 	}
 }
 
