@@ -39,7 +39,6 @@ void	destroy_pipe(t_pipex *pipex)
 	{
 		close(pipex->pipe[i][0]);
 		close(pipex->pipe[i][1]);
-		free(pipex->pipe[i]);
 		i++;
 	}
 	free(pipex->pipe);
@@ -50,7 +49,7 @@ void	alloc_pipe(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	pipex->pipe = ft_malloc(sizeof(int *) * pipex->childs - 1);
+	pipex->pipe = ft_malloc(sizeof(int *) * (pipex->childs - 1));
 	if (pipex->pipe == NULL)
 		throw_error("Malloc error");
 	while (i < pipex->childs - 1)

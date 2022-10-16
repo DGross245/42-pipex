@@ -30,8 +30,10 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 			dup2_function(pipex->pipe[index - 1][0], pipex->outfile);
 		else
 			dup2_function(pipex->pipe[index - 1][0], pipex->pipe[index][1]);
-		dprintf(2, "0 = %d, 1 = %d\n", pipex->pipe[index - 1][0], pipex->pipe[index][1]);
+		destroy_pipe(&pipex);
 		pipex->cmd = ft_split(str, ' ');
+		if (pipex->cmd == NULL)
+			throw_error("ft_split error");
 		pipex->file = get_path(pipex, pipex->cmd[0]);
 		if (pipex->file == NULL)
 			throw_error("cmd not found");
@@ -55,6 +57,8 @@ void	find_path(t_pipex *pipex, char **envp)
 	while (ft_strncmp(envp[i], "PATH", 4))
 		i++;
 	pipex->path = ft_split(envp[i] + 5, ':');
+	if(pipex->path == NULL)
+		throw_error("ft_split error");
 }
 
 char	*get_path(t_pipex *pipex, char *cmd)

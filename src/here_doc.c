@@ -31,7 +31,7 @@ void	check_heredoc(t_pipex *pipex, int argc, char **argv)
 		if (argc < 5)
 			throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
 		pipex->infile = open(argv[1], O_RDONLY);
-		pipex->outfile = open(argv[argc - 1], O_WRONLY | O_CREAT, 0777);
+		pipex->outfile = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
 	}
 	if (pipex->infile == -1 || pipex->outfile == -1)
 		throw_error("Wrong input: infile/outfile Error");
