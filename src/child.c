@@ -6,13 +6,14 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:34:26 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/16 12:58:47 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/16 20:12:31 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <unistd.h> // fork dup2
 #include "libft.h" // ft_split ft_strncmp ft_strjoin
+#include <stdio.h> // ft_split ft_strncmp ft_strjoin
 
 void	childs(t_pipex *pipex, int index, char *str, char **envp)
 {
@@ -29,6 +30,7 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 			dup2_function(pipex->pipe[index - 1][0], pipex->outfile);
 		else
 			dup2_function(pipex->pipe[index - 1][0], pipex->pipe[index][1]);
+		dprintf(2, "0 = %d, 1 = %d\n", pipex->pipe[index - 1][0], pipex->pipe[index][1]);
 		pipex->cmd = ft_split(str, ' ');
 		pipex->file = get_path(pipex, pipex->cmd[0]);
 		if (pipex->file == NULL)

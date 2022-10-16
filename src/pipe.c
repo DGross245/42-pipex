@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:50:50 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/16 13:00:12 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/16 19:41:02 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include <unistd.h> // pipe close
 #include <stdlib.h> // free
+#include <stdio.h> // free
 
 void	create_pipe(t_pipex *pipex)
 {

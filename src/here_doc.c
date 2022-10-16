@@ -6,12 +6,13 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:53:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/16 12:58:19 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/16 19:06:06 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <fcntl.h> // open
+#include <stdio.h> // open
 #include "libft.h" // ft_strncmp
 
 void	check_heredoc(t_pipex *pipex, int argc, char **argv)
