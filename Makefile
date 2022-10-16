@@ -6,7 +6,7 @@
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/07 17:25:15 by dgross            #+#    #+#              #
-#    Updated: 2022/10/15 15:08:42 by dgross           ###   ########.fr        #
+#    Updated: 2022/10/16 13:03:40 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		= pipex
 
 LIBFT		= libft/libft.a
 
-SRC			= pipex.c
+SRC			= main.c child.c error.c here_doc.c pipe.c
 
 OBJ_DIR		= ./obj/
 
