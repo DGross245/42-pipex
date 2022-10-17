@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   child_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:34:26 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 20:32:52 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/17 23:34:35 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 #include <unistd.h> // fork dup2
 #include "libft.h" // ft_split ft_strncmp ft_strjoin
 #include <stdlib.h> // exit
@@ -22,8 +22,13 @@ void	childs(t_pipex *pipex, int index, char *cmd_str, char **envp)
 		throw_error("fork error");
 	if (pipex->pid == 0)
 	{
-		if (index == 0)
+		if (index == 0 && pipex->here_doc == 0)
 			dup2_function(pipex->infile, pipex->pipe[0][1]);
+		if (index == 0 && pipex->here_doc == 1)
+		{
+			ft_here_doc(pipex);
+			dup2(pipex->pipe[0][1], 1);
+		}
 		else if (index == pipex->childs - 1)
 			dup2_function(pipex->pipe[index - 1][0], pipex->outfile);
 		else

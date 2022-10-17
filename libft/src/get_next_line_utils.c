@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 13:39:07 by dgross            #+#    #+#             */
-/*   Updated: 2022/06/03 12:10:44 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/17 23:08:17 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stddef.h> // size_t NULL
 #include <stdlib.h> // malloc
 
-char	*ft_strchr(char *s, int c)
+char	*gnl_strchr(char *s, int c)
 {
 	char	i;
 	int		b;
@@ -25,7 +25,7 @@ char	*ft_strchr(char *s, int c)
 		return (NULL);
 	j = 0;
 	i = c;
-	b = ft_strlen(s);
+	b = gnl_strlen(s);
 	while (j <= b)
 	{
 		if (s[j] == i)
@@ -35,7 +35,7 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*gnl_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -50,7 +50,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	if (!s1 || !s2)
 		return (NULL);
-	string = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	string = malloc((gnl_strlen(s1) + gnl_strlen(s2) + 1) * sizeof(char));
 	if (string == NULL)
 		return (NULL);
 	if (s1)
@@ -58,12 +58,12 @@ char	*ft_strjoin(char *s1, char *s2)
 			string[i] = s1[i];
 	while (s2[j] != '\0')
 		string[i++] = s2[j++];
-	string[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	string[gnl_strlen(s1) + gnl_strlen(s2)] = '\0';
 	free(s1);
 	return (string);
 }
 
-size_t	ft_strlen(char *s)
+size_t	gnl_strlen(char *s)
 {
 	int	len;
 

@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 17:27:48 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 23:50:16 by dgross           ###   ########.fr       */
+/*   Created: 2022/10/17 17:18:03 by dgross            #+#    #+#             */
+/*   Updated: 2022/10/17 23:46:30 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h> /////////////////////////////////////////////
-#include "pipex.h"
+#include "pipex_bonus.h"
 #include <fcntl.h> // open
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
-//heredoc, leak, error handling
-// testen ob bei strjoin auch "/" + cmd geht
+#include <stdio.h>
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 	int		index;
 
-	if (argc != 5)
+	if (argc < 5)
 		throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
 	index = 0;
-	pipex.childs = argc - 3;
-	pipex.infile = open(argv[1], O_RDONLY);
-	if (pipex.infile == -1)
-		throw_error2("Wrong input: infile Error");
-	pipex.outfile = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (pipex.outfile == -1)
-		throw_error("Wrong input: outfile Error");
+	check_heredoc(&pipex, argc, argv);
+	pipex.childs = argc - 3 - pipex.here_doc;
 	create_pipe(&pipex);
 	find_path(&pipex, envp);
 	while (index < pipex.childs)

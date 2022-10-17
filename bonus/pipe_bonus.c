@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   pipe_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/16 12:50:50 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 23:50:30 by dgross           ###   ########.fr       */
+/*   Created: 2022/10/17 21:52:08 by dgross            #+#    #+#             */
+/*   Updated: 2022/10/17 23:45:47 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include <unistd.h> // pipe close
 #include <stdlib.h> // free
+#include <stdio.h> // free
 
 void	create_pipe(t_pipex *pipex)
 {
@@ -49,6 +50,7 @@ void	alloc_pipe(t_pipex *pipex)
 	int	i;
 
 	i = 0;
+	printf("next = [%d]\n", pipex->childs);
 	pipex->pipe = ft_malloc(sizeof(int *) * (pipex->childs - 1));
 	if (pipex->pipe == NULL)
 		throw_error("Malloc error");

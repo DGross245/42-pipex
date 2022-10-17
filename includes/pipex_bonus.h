@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 17:26:19 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 21:10:36 by dgross           ###   ########.fr       */
+/*   Created: 2022/10/17 17:21:14 by dgross            #+#    #+#             */
+/*   Updated: 2022/10/17 23:33:26 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 typedef struct s_pipex
 {
+	int		here_doc;
 	int		**pipe;
 	int		pid;
 	char	**path;
@@ -24,6 +25,7 @@ typedef struct s_pipex
 	int		childs;
 	int		infile;
 	int		outfile;
+	char	*limiter;
 }t_pipex;
 
 // child.c
@@ -45,5 +47,11 @@ void	ft_free(t_pipex *pipex);
 
 void	throw_error(char *str);
 void	throw_error2(char *str);
+
+// here_doc.c
+
+void	check_heredoc(t_pipex *pipex, int argc, char **argv);
+void	ft_here_doc(t_pipex *pipex);
+void	write_pipes(t_pipex *pipex);
 
 #endif

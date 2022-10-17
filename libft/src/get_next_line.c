@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 13:39:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/05/19 12:55:10 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/17 23:07:42 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*read_line(int fd, char *string)
 	buffer = malloc (sizeof(char) * BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	while (!ft_strchr(string, '\n') && bytes_read != 0)
+	while (!gnl_strchr(string, '\n') && bytes_read != 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
@@ -34,7 +34,7 @@ char	*read_line(int fd, char *string)
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		string = ft_strjoin(string, buffer);
+		string = gnl_strjoin(string, buffer);
 	}
 	free (buffer);
 	return (string);
@@ -80,7 +80,7 @@ char	*keep_line(char *string)
 		free(string);
 		return (NULL);
 	}
-	str_len = ft_strlen(string);
+	str_len = gnl_strlen(string);
 	pointer = malloc(sizeof(char) * (str_len - i + 1));
 	if (!pointer)
 		return (NULL);

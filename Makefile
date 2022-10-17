@@ -6,23 +6,32 @@
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/07 17:25:15 by dgross            #+#    #+#              #
-#    Updated: 2022/10/16 13:03:40 by dgross           ###   ########.fr        #
+#    Updated: 2022/10/17 22:08:07 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= pipex
 
+BONUS_NAME	= pipex_bonus
+
 LIBFT		= libft/libft.a
 
-SRC			= main.c child.c error.c here_doc.c pipe.c
+SRC			= main.c child.c error.c pipe.c
+
+SRC_BONUS	= main_bonus.c child_bonus.c error_bonus.c here_doc_bonus.c pipe_bonus.c
 
 OBJ_DIR		= ./obj/
 
+B_OBJ_DIR	= ./bonus_obj/
+
 OBJ			= $(addprefix $(OBJ_DIR),$(SRC:.c=.o))
+
+B_OBJ		= $(addprefix $(B_OBJ_DIR),$(SRC_BONUS:.c=.o))
 
 CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
+
 INCLUDES	= -I./includes -I./libft/includes
 
 LINCLUDES	= -L./libft -lft
@@ -36,8 +45,15 @@ all: $(NAME)
 
 obj:
 	@mkdir -p $(OBJ_DIR)
+	
+b_obj:
+	@mkdir -p $(B_OBJ_DIR)
 
 obj/%.o: src/%.c
+	@echo "$(g)Compiling  $(w)$<$(de)"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	
+bonus_obj/%.o: bonus/%.c
 	@echo "$(g)Compiling  $(w)$<$(de)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
@@ -59,15 +75,22 @@ $(NAME): --pipex_img obj $(OBJ)
 	@$(MAKE) -C ./libft
 	@$(CC) $(OBJ) $(CFLAGS) $(INCLUDES) $(LIBFT) $(LINCLUDES) -o $(NAME)
 	@echo "$(g)Compiling Done ✔️$(de)"
+	
+bonus: --pipex_img b_obj $(B_OBJ)
+	@$(MAKE) -C ./libft
+	@$(CC) $(B_OBJ) $(CFLAGS) $(INCLUDES) $(LIBFT) $(LINCLUDES) -o $(BONUS_NAME)
+	@echo "$(g)Compiling Done ✔️$(de)"
 
 clean:
 	@echo "$(r)Cleaning 🧹 $(w)...$(de)"
 	@$(MAKE) clean -C libft/
 	@rm -rf obj
+	@rm -rf bonus_obj
 
 fclean: clean
 	@$(MAKE) fclean -C libft/
 	@rm -rf $(NAME)
+	@rm -rf $(BONUS_NAME)
 
 re: fclean all
 
