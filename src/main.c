@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 17:27:48 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/16 19:07:03 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/17 16:16:44 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 	int		index;
 
+	if (argc < 5)
+		throw_error("Wrong input: ./pipex infile cmd1 cmd2 outfile");
 	index = 0;
 	pipex.childs = argc - 3;
 	check_heredoc(&pipex, argc, argv);

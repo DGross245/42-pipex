@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:34:26 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/16 20:12:31 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/17 14:32:52 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h" // ft_split ft_strncmp ft_strjoin
 #include <stdio.h> // ft_split ft_strncmp ft_strjoin
 
-void	childs(t_pipex *pipex, int index, char *str, char **envp)
+void	childs(t_pipex *pipex, int index, char *cmd_str, char **envp)
 {
 	int		id;
 
@@ -30,14 +30,28 @@ void	childs(t_pipex *pipex, int index, char *str, char **envp)
 			dup2_function(pipex->pipe[index - 1][0], pipex->outfile);
 		else
 			dup2_function(pipex->pipe[index - 1][0], pipex->pipe[index][1]);
-		destroy_pipe(&pipex);
-		pipex->cmd = ft_split(str, ' ');
+		destroy_pipe(pipex);
+		check_access(pipex, cmd_str);
+		if (execve(pipex->file, pipex->cmd, envp) == -1)
+			throw_error("failed to execute");
+	}
+}
+
+void	check_access(t_pipex *pipex, char *cmd_str)
+{
+	if (access(cmd_str, F_OK) == -1)
+	{
+		pipex->cmd = ft_split(cmd_str, ' ');
 		if (pipex->cmd == NULL)
 			throw_error("ft_split error");
 		pipex->file = get_path(pipex, pipex->cmd[0]);
 		if (pipex->file == NULL)
-			throw_error("cmd not found");
-		execve(pipex->file, pipex->cmd, envp);
+			throw_error("command not found");
+	}
+	else
+	{
+		pipex->file = cmd_str;
+		pipex->cmd = ft_split(cmd_str, ' ');
 	}
 }
 
@@ -57,7 +71,7 @@ void	find_path(t_pipex *pipex, char **envp)
 	while (ft_strncmp(envp[i], "PATH", 4))
 		i++;
 	pipex->path = ft_split(envp[i] + 5, ':');
-	if(pipex->path == NULL)
+	if (pipex->path == NULL)
 		throw_error("ft_split error");
 }
 
