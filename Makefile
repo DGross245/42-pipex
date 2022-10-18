@@ -36,6 +36,7 @@ INCLUDES	= -I./includes -I./libft/includes
 
 LINCLUDES	= -L./libft -lft
 
+ge			= \033[43m
 g			= \033[1;32m
 de 			= \033[0m
 r 			= \033[0;31m
@@ -71,12 +72,29 @@ bonus_obj/%.o: bonus/%.c
 	@echo "                                      $(g)⠫⣟⢮⠣⢌⠠⠐⡈⠄⡈⠄⡁⠂⠄⡁⢂⡐⣀⣂⡶⠁$(de)"
 	@echo "                                       $(g)⠈⠉⠑⠈⠀⠐⠐⠒⠒⠀⠑⠀⠑⠚⠉⠉⠁$(de)"
 
+
+--bonus_pipex_img:
+	@echo "												      $(g)..$(de)"   									 
+	@echo "                								    $(g). .!.$(de)"  
+	@echo "										    $(g)..... .:.  ^7:....$(de)"           
+	@echo "                                         $(g)..::::^.   .~?~:..   .$(de)"
+	@echo "██████╗ ██╗██████╗ ███████╗██╗  ██      $(g)...::::.     .^7~::.....$(de)"   
+	@echo "██╔══██╗██║██╔══██╗██╔════╝╚██╗██╔╝$(g).:...        .    ^:.:::::^^^^~:$(de)"  
+	@echo "██████╔╝██║██████╔╝█████╗   ╚███╔╝  $(g).^~^:.     ^██  ^██...::^~7J?:.$(de)"   
+	@echo "██╔═══╝ ██║██╔═══╝ ██╔══╝   ██╔██╗    $(g).~7!~:.. ?██ .~██:^~~7Y5J^.$(de)"    
+	@echo "██║     ██║██║     ███████╗██╔╝ ██╗  $(g)...^!7!~^:^██::^██~!!JP?:...$(de)" 
+	@echo "╚═╝     ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝  $(g).....^!~^^^:^~~~^~!!?5Y....$(de)"
+	@echo "                               		 $(g)..::^!~^~~!!!77!!!7?YP:....$(de)"
+	@echo "                                      $(g).:::~~~!7JY55555YJJ?JP^...$(de)"   
+	@echo "                                      $(g).....!7?5P5J!~^~7Y5PP55?$(de)"     
+    @echo "                                          $(g)^?J?~:........:^!J5Y.$(de)"         
+                                                                      
 $(NAME): --pipex_img obj $(OBJ)
 	@$(MAKE) -C ./libft
 	@$(CC) $(OBJ) $(CFLAGS) $(INCLUDES) $(LIBFT) $(LINCLUDES) -o $(NAME)
 	@echo "$(g)Compiling Done ✔️$(de)"
 	
-bonus: --pipex_img b_obj $(B_OBJ)
+bonus: --bonues_pipex_img b_obj $(B_OBJ)
 	@$(MAKE) -C ./libft
 	@$(CC) $(B_OBJ) $(CFLAGS) $(INCLUDES) $(LIBFT) $(LINCLUDES) -o $(BONUS_NAME)
 	@echo "$(g)Compiling Done ✔️$(de)"
