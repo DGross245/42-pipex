@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:53:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 23:38:58 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/18 17:09:22 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 void	check_heredoc(t_pipex *pipex, int argc, char **argv)
 {
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	if (pipex->here_doc == 1)
 	{
 		if (argc < 6)
 		{
@@ -31,8 +31,8 @@ void	check_heredoc(t_pipex *pipex, int argc, char **argv)
 		| O_APPEND, 0777);
 		if (pipex->outfile == -1)
 			throw_error("Wrong input: outfile Error");
-		pipex->here_doc = 1;
 		pipex->limiter = argv[2];
+		ft_here_doc(pipex);
 	}
 	else
 	{
@@ -50,20 +50,26 @@ void	ft_here_doc(t_pipex *pipex)
 {
 	char	*input;
 	int		length;
+	int		limit_len;
+	int		i;
 
-	length = ft_strlen(pipex->limiter);
+	i = 0;
+	length = 65535;
+	input = ft_malloc (length * sizeof(char));
+	pipex->limiter = ft_strjoin(pipex->limiter, "\n");
+	limit_len = ft_strlen(pipex->limiter);
 	while (1)
 	{
+		pipex->infile = pipex->pipe[0][0];
 		write_pipes(pipex);
-		input = get_next_line(STDIN_FILENO);
-		if (input == NULL)
+		i = read(STDOUT_FILENO, input, length);
+		if (i == -1)
 			throw_error("read error");
-		if (ft_strncmp(input, pipex->limiter, length) == 0)
+		input[i] = 0;
+		if (ft_strncmp(input, pipex->limiter, limit_len) == 0)
 			break ;
 		write(pipex->pipe[0][1], input, ft_strlen(input));
-		free(input);
 	}
-	close(pipex->pipe[0][1]);
 	free(input);
 }
 

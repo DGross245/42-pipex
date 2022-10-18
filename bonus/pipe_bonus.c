@@ -6,21 +6,26 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 21:52:08 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 23:45:47 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/18 14:15:20 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 #include "libft.h"
 #include <unistd.h> // pipe close
 #include <stdlib.h> // free
 #include <stdio.h> // free
 
-void	create_pipe(t_pipex *pipex)
+void	create_pipe(t_pipex *pipex, char **argv, int argc)
 {
 	int	i;
 
 	i = 0;
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+		pipex->here_doc = 1;
+	else
+		pipex->here_doc = 0;
+	pipex->childs = argc - 3 - pipex->here_doc;
 	alloc_pipe(pipex);
 	while (i < pipex->childs - 1)
 	{
@@ -50,7 +55,6 @@ void	alloc_pipe(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	printf("next = [%d]\n", pipex->childs);
 	pipex->pipe = ft_malloc(sizeof(int *) * (pipex->childs - 1));
 	if (pipex->pipe == NULL)
 		throw_error("Malloc error");

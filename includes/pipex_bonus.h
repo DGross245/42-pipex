@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:21:14 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 23:33:26 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/18 14:14:46 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_path(t_pipex *pipex, char *cmd);
 
 // pipe.c
 
-void	create_pipe(t_pipex *pipex);
+void	create_pipe(t_pipex *pipex, char **argv, int argc);
 void	destroy_pipe(t_pipex *pipex);
 void	alloc_pipe(t_pipex *pipex);
 void	ft_free(t_pipex *pipex);
