@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:53:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/19 14:26:31 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 20:28:07 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,19 @@ void	ft_here_doc(t_pipex *pipex)
 	input = ft_malloc (length * sizeof(char));
 	pipex->limiter = ft_strjoin(pipex->limiter, "\n");
 	limit_len = ft_strlen(pipex->limiter);
+	pipex->infile = open("here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	while (1)
 	{
-		pipex->infile = pipex->pipe[0][0];
 		write_pipes(pipex);
 		i = read(STDOUT_FILENO, input, length);
 		if (i == -1)
 			throw_error("read error");
-		input[i] = 0;
 		if (ft_strncmp(input, pipex->limiter, limit_len) == 0)
 			break ;
-		write(pipex->pipe[0][1], input, ft_strlen(input));
+		write(pipex->infile, input, ft_strlen(input));
 	}
+	close(pipex->infile);
+	pipex->infile = open("here_doc", O_RDONLY);
 	free(pipex->limiter);
 	free(input);
 }
