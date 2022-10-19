@@ -6,16 +6,12 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:18:03 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/18 14:19:04 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 16:07:48 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <fcntl.h> // open
-#include <sys/wait.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <unistd.h> // close
 
 int	main(int argc, char **argv, char **envp)
 {

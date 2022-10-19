@@ -6,15 +6,14 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 21:52:08 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/18 14:15:20 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 16:11:00 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include "libft.h"
+#include "libft.h" // ft_malloc  
 #include <unistd.h> // pipe close
 #include <stdlib.h> // free
-#include <stdio.h> // free
 
 void	create_pipe(t_pipex *pipex, char **argv, int argc)
 {

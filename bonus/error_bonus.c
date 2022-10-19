@@ -6,14 +6,13 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 21:13:13 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 21:51:28 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 13:32:06 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include <stdlib.h> // exit
 #include <stdio.h> // perror
-#include <unistd.h> // perror
 
 void	throw_error(char *str)
 {

@@ -6,18 +6,13 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 17:27:48 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/18 16:57:07 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 15:27:01 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h> /////////////////////////////////////////////
 #include "pipex.h"
 #include <fcntl.h> // open
-#include <sys/wait.h>
-#include <unistd.h>
-#include <stdlib.h>
-//heredoc, leak, error handling
-// testen ob bei strjoin auch "/" + cmd geht
+#include <unistd.h> // close
 
 int	main(int argc, char **argv, char **envp)
 {

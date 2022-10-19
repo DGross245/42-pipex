@@ -6,12 +6,12 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:50:50 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 23:50:30 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 13:26:20 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "libft.h"
+#include "libft.h" // ft_malloc 
 #include <unistd.h> // pipe close
 #include <stdlib.h> // free
 

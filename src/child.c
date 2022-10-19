@@ -6,12 +6,12 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:34:26 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 20:32:52 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 15:27:07 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <unistd.h> // fork dup2
+#include <unistd.h> // fork dup2 access
 #include "libft.h" // ft_split ft_strncmp ft_strjoin
 #include <stdlib.h> // exit
 

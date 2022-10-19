@@ -6,16 +6,14 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:53:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/18 17:09:22 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/19 14:26:31 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include <fcntl.h> // open
-#include <stdio.h> // open
-#include "libft.h" // ft_strncmp
-#include "get_next_line.h" // ft_get_next_line
-#include <unistd.h> // read
+#include "libft.h" // ft_strncmp ft_malloc ft_strjoin ft_strlen
+#include <unistd.h> // read write
 #include <stdlib.h> // free
 
 void	check_heredoc(t_pipex *pipex, int argc, char **argv)
@@ -70,6 +68,7 @@ void	ft_here_doc(t_pipex *pipex)
 			break ;
 		write(pipex->pipe[0][1], input, ft_strlen(input));
 	}
+	free(pipex->limiter);
 	free(input);
 }
 
