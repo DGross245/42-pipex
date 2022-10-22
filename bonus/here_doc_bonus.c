@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:53:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/19 20:28:07 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/22 13:35:58 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	check_heredoc(t_pipex *pipex, int argc, char **argv)
 	{
 		pipex->infile = open(argv[1], O_RDONLY);
 		if (pipex->infile == -1)
-			throw_error2("Wrong input: infile Error");
+			throw_error3("Wrong input: infile Error");
 		pipex->outfile = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
 		if (pipex->outfile == -1)
 			throw_error("Wrong input: outfile Error");

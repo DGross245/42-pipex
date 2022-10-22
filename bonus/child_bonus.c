@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 12:34:26 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/19 19:26:48 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/22 13:39:04 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	childs(t_pipex *pipex, int index, char *cmd_str, char **envp)
 		throw_error("fork error");
 	if (pipex->pid == 0)
 	{
-		if (index == 0)
+		if (index == 0 && pipex->infile != -1)
 			dup2_function(pipex->infile, pipex->pipe[0][1]);
 		else if (index == pipex->childs - 1)
 			dup2_function(pipex->pipe[index - 1][0], pipex->outfile);
@@ -44,7 +44,7 @@ void	check_access(t_pipex *pipex, char *cmd_str)
 			throw_error("ft_split error");
 		pipex->file = get_path(pipex, pipex->cmd[0]);
 		if (pipex->file == NULL)
-			throw_error("command not found");
+			throw_error2("command not found");
 	}
 	else
 	{

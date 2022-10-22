@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 17:26:19 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/17 21:10:36 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/22 13:35:29 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_pipex
 	int		childs;
 	int		infile;
 	int		outfile;
+	int		status;
 }t_pipex;
 
 // child.c
@@ -45,5 +46,8 @@ void	ft_free(t_pipex *pipex);
 
 void	throw_error(char *str);
 void	throw_error2(char *str);
+void	throw_error3(char *str);
+
+void	ft_close(t_pipex *pipex);
 
 #endif
